@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "359251410769",
+    "firebase_url": "https://savaynewdemo.firebaseio.com",
+    "project_id": "savaynewdemo",
+    "storage_bucket": "savaynewdemo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:359251410769:android:8986e78504e44a33399d70",
+        "android_client_info": {
+          "package_name": "ashishdas.savaynewdemo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "359251410769-jslk8pf0hks7bdoc0sknniq6e2go4dnl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJZHBpd7WgvO9aBIQ99QpIh9mU_WIXQjo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "359251410769-jslk8pf0hks7bdoc0sknniq6e2go4dnl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
