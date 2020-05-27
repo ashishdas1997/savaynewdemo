@@ -22,7 +22,6 @@ class _ArticleScreenState extends State<ArticleScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     data = getPosts();
   }
