@@ -1,9 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../screens/article_card.dart';
-import 'package:provider/provider.dart';
 
 class ArticleRow extends StatefulWidget {
-  final List rowArticles;
+  final  rowArticles;
   ArticleRow(this.rowArticles);
 
   @override

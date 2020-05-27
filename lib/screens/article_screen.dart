@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../screens/article_row.dart';
 import '../screens/category_row.dart';
-import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:async/async.dart';
 
@@ -12,6 +11,7 @@ class ArticleScreen extends StatefulWidget {
 }
 
 class _ArticleScreenState extends State<ArticleScreen> {
+
   Future data;
 
   Future getPosts() async {
@@ -28,7 +28,7 @@ class _ArticleScreenState extends State<ArticleScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var artData = Firestore.instance.collection('articles');
+
 
     return DefaultTabController(
       length: 3,
@@ -90,10 +90,8 @@ class _ArticleScreenState extends State<ArticleScreen> {
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            ArticleRow(
-                              snapshot.data.where((allServicesData) =>
-                                  allServicesData.type == "Recent"),
-                            ),
+                            ArticleRow(snapshot.data.where((allServicesData) =>
+                            allServicesData.type == 'Recent')),
                             ArticleRow(snapshot.data.where((allServicesData) =>
                                 allServicesData.type == 'Technology')),
                             ArticleRow(snapshot.data.where((allServicesData) =>
