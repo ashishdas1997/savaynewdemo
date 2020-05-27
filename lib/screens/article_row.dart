@@ -3,7 +3,7 @@ import '../screens/article_card.dart';
 import 'package:provider/provider.dart';
 
 class ArticleRow extends StatefulWidget {
-  final  rowArticles;
+  final List rowArticles;
   ArticleRow(this.rowArticles);
 
   @override
@@ -45,7 +45,7 @@ class _ArticleRowState extends State<ArticleRow> {
             child: Row(
               children: widget.rowArticles
                   .map(
-                    (articleData) => ArticleCard(document: articleData),
+                    (articleData) => ArticleCard(articleData: articleData),
                   )
                   .toList(),
             )),

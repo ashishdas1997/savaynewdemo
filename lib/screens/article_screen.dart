@@ -4,6 +4,7 @@ import '../screens/article_row.dart';
 import '../screens/category_row.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:async/async.dart';
 
 class ArticleScreen extends StatefulWidget {
   @override
@@ -11,29 +12,24 @@ class ArticleScreen extends StatefulWidget {
 }
 
 class _ArticleScreenState extends State<ArticleScreen> {
-  var isInit = true;
+  Future data;
+
+  Future getPosts() async {
+    var firestore = Firestore.instance;
+    QuerySnapshot qn = await firestore.collection('articles').getDocuments();
+    return qn.documents;
+  }
+
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
+    data = getPosts();
   }
-
-  @override
-  void didChangeDependencies() {
-    if (isInit) {
-    }
-    isInit = false;
-    super.didChangeDependencies();
-  }
-
-  @override
-//  void addArticle(BuildContext ctx) {
-//    Navigator.of(ctx).pushNamed(Library.routeName);
-//  }
 
   @override
   Widget build(BuildContext context) {
-    //var artData = Provider.of<AllServices>(context);
-    var artData= Firestore.instance.collection('articles');
+    var artData = Firestore.instance.collection('articles');
 
     return DefaultTabController(
       length: 3,
@@ -79,52 +75,56 @@ class _ArticleScreenState extends State<ArticleScreen> {
             ),
           ),
         ),
-        body: TabBarView(
-          physics: NeverScrollableScrollPhysics(),
-          children: [
-            SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
+        body: FutureBuilder(
+            future: data,
+            builder: (_, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(
+                  child: Text('Loading...'),
+                );
+              } else {
+                return TabBarView(
+                  physics: NeverScrollableScrollPhysics(),
                   children: [
-                    ArticleRow(artData
-                        .where((allServicesData) =>
-                            allServicesData.type == "Recent"),
-                        ),
-                    ArticleRow(artData
-                        .where((allServicesData) =>
-                            allServicesData.type == 'Technology')
-                        ),
-                    ArticleRow(artData
-                        .where((allServicesData) =>
-                            allServicesData.type == 'Movies')
-                        )
+                    SingleChildScrollView(
+                        scrollDirection: Axis.vertical,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            ArticleRow(
+                              snapshot.data.where((allServicesData) =>
+                                  allServicesData.type == "Recent"),
+                            ),
+                            ArticleRow(snapshot.data.where((allServicesData) =>
+                                allServicesData.type == 'Technology')),
+                            ArticleRow(snapshot.data.where((allServicesData) =>
+                                allServicesData.type == 'Movies'))
+                          ],
+                        )),
+                    SingleChildScrollView(
+                        scrollDirection: Axis.vertical,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            CategoryRow(snapshot.data.where((allServicesData) =>
+                                allServicesData.contentType == 'Audio')),
+                            CategoryRow(snapshot.data.where((allServicesData) =>
+                                allServicesData.contentType == 'Video')),
+                            CategoryRow(snapshot.data.where((allServicesData) =>
+                                allServicesData.contentType == 'Text'))
+                          ],
+                        )),
+                    Container(
+                      child: Center(
+                          child:
+                              Text(' You hav not added any Favourites yet!')),
+                    )
                   ],
-                )),
-            SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    CategoryRow(artData
-                        .where((allServicesData) =>
-                            allServicesData.contentType == 'Audio')
-                        ),
-                    CategoryRow(artData
-                        .where((allServicesData) =>
-                            allServicesData.contentType == 'Video')
-                        ),
-                    CategoryRow(artData
-                        .where((allServicesData) =>
-                            allServicesData.contentType == 'Text')
-                        )
-                  ],
-                )),
-            Container(
-                child: Center(
-                    child: Text(' You hav not added any Favourites yet!')))
-          ],
-        ),
+                );
+              }
+              ;
+            }),
+
 //        floatingActionButton: FloatingActionButton.extended(
 //            onPressed: () => addArticle(context), label: Text('Library')),
         bottomNavigationBar: BottomNavigationBar(

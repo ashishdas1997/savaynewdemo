@@ -1,26 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../screens/article_row.dart';
 
-
 class ArticleCard extends StatefulWidget {
-  final  DocumentSnapshot document;
+  final DocumentSnapshot articleData;
 
-  ArticleCard({this.document});
+  ArticleCard({this.articleData});
 
   @override
   _ArticleCardState createState() => _ArticleCardState();
 }
 
 class _ArticleCardState extends State<ArticleCard> {
-
   bool isFavourite = false;
 
   @override
   Widget build(BuildContext context) {
-
     void toggleFavouriteStatus() {
       setState(
         () {
@@ -43,7 +39,7 @@ class _ArticleCardState extends State<ArticleCard> {
                     Stack(
                       children: <Widget>[
                         Image.asset(
-                          widget.document['imageLink'],
+                          widget.articleData.data['imageLink'],
                           width: 195,
                           height: 115,
                           fit: BoxFit.fitWidth,
@@ -93,7 +89,7 @@ class _ArticleCardState extends State<ArticleCard> {
                 Padding(
                   padding: EdgeInsets.all(15),
                   child: Text(
-                    widget.document['title'],
+                    widget.articleData.data['title'],
                     style: TextStyle(
                         fontSize: 16,
                         color: Color.fromRGBO(49, 67, 89, 0.8),
@@ -114,19 +110,19 @@ class _ArticleCardState extends State<ArticleCard> {
                         width: 3,
                       ),
                       Text(
-                        widget.document['addedTime'],
+                        widget.articleData.data['addedTime'],
                         style: TextStyle(fontSize: 14, color: Colors.grey),
                       ),
                       SizedBox(
                         width: 15,
                       ),
-                      (widget.document['contentType'] == 'Audio')
+                      (widget.articleData.data['contentType'] == 'Audio')
                           ? Icon(
                               Icons.audiotrack,
                               size: 15,
                               color: Colors.grey.shade400,
                             )
-                          : (widget.document['contentType'] == 'Video')
+                          : (widget.articleData.data['contentType'] == 'Video')
                               ? Icon(
                                   Icons.play_arrow,
                                   size: 15,
@@ -141,7 +137,7 @@ class _ArticleCardState extends State<ArticleCard> {
                         width: 5,
                       ),
                       Text(
-                        widget.document['contentType'],
+                        widget.articleData.data['contentType'],
                         style: TextStyle(fontSize: 13, color: Colors.grey),
                       )
                     ],

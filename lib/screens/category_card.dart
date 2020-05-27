@@ -28,119 +28,117 @@ class _CategoryCardState extends State<CategoryCard> {
       child: ClipRRect(
           borderRadius: BorderRadius.circular(10),
           child: Card(
-            child: Wrap(
-              children: [
-                Column(
-                  children: <Widget>[
-                    Stack(
-                      children: <Widget>[
-                        Image.asset(
-                          widget.categoryData['imageLink'],
-                          width: 195,
-                          height: 115,
-                          fit: BoxFit.fitWidth,
-                        ),
-                        Positioned(
-                          bottom: 8,
-                          right: 8,
-                          child: Container(
-                            color: Colors.white,
-                            //margin: EdgeInsets.only( bottom: 5),
-                            height: 30,
-                            width: 58,
-                            child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: <Widget>[
-                                  Container(
-                                    padding: EdgeInsets.all(0.0),
-                                    child: GestureDetector(
-                                      behavior: HitTestBehavior.translucent,
-                                      child: Icon(
-                                        (isFavourite
-                                            ? Icons.favorite
-                                            : Icons.favorite_border),
-                                        color: Colors.grey,
-                                        size: 16,
-                                      ),
-                                      onTap: () => toggleFavouriteStatus(),
-                                    ),
-                                  ),
-                                  VerticalDivider(),
-                                  GestureDetector(
+            child: Wrap(children: [
+              Column(
+                children: <Widget>[
+                  Stack(
+                    children: <Widget>[
+                      Image.asset(
+                        widget.categoryData.data['imageLink'],
+                        width: 195,
+                        height: 115,
+                        fit: BoxFit.fitWidth,
+                      ),
+                      Positioned(
+                        bottom: 8,
+                        right: 8,
+                        child: Container(
+                          color: Colors.white,
+                          //margin: EdgeInsets.only( bottom: 5),
+                          height: 30,
+                          width: 58,
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: <Widget>[
+                                Container(
+                                  padding: EdgeInsets.all(0.0),
+                                  child: GestureDetector(
+                                    behavior: HitTestBehavior.translucent,
                                     child: Icon(
-                                      Icons.event_note,
+                                      (isFavourite
+                                          ? Icons.favorite
+                                          : Icons.favorite_border),
                                       color: Colors.grey,
                                       size: 16,
                                     ),
-                                    //constraints: BoxConstraints.tight(Size(15, 25)),
-                                  )
-                                ]),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                Padding(
-                  padding: EdgeInsets.all(15),
-                  child: Text(
-                    widget.categoryData['title'],
-                    style: TextStyle(
-                        fontSize: 16,
-                        color: Color.fromRGBO(49, 67, 89, 0.8),
-                        fontWeight: FontWeight.w900),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Icon(
-                        Icons.access_time,
-                        color: Colors.grey.shade400,
-                        size: 15,
-                      ),
-                      SizedBox(
-                        width: 3,
-                      ),
-                      Text(
-                        widget.categoryData['addedTime'],
-                        style: TextStyle(fontSize: 14, color: Colors.grey),
-                      ),
-                      SizedBox(
-                        width: 15,
-                      ),
-                      (widget.categoryData['contentType'] == 'Audio')
-                          ? Icon(
-                              Icons.audiotrack,
-                              size: 15,
-                              color: Colors.grey.shade400,
-                            )
-                          : (widget.categoryData['contentType'] == 'Video')
-                              ? Icon(
-                                  Icons.play_arrow,
-                                  size: 15,
-                                  color: Colors.grey.shade400,
-                                )
-                              : Icon(
-                                  Icons.event_note,
-                                  size: 15,
-                                  color: Colors.grey.shade400,
+                                    onTap: () => toggleFavouriteStatus(),
+                                  ),
                                 ),
-                      SizedBox(
-                        width: 5,
+                                VerticalDivider(),
+                                GestureDetector(
+                                  child: Icon(
+                                    Icons.event_note,
+                                    color: Colors.grey,
+                                    size: 16,
+                                  ),
+                                  //constraints: BoxConstraints.tight(Size(15, 25)),
+                                )
+                              ]),
+                        ),
                       ),
-                      Text(
-                        widget.categoryData['contentType'],
-                        style: TextStyle(fontSize: 13, color: Colors.grey),
-                      )
                     ],
                   ),
+                ],
+              ),
+              Padding(
+                padding: EdgeInsets.all(15),
+                child: Text(
+                  widget.categoryData.data['title'],
+                  style: TextStyle(
+                      fontSize: 16,
+                      color: Color.fromRGBO(49, 67, 89, 0.8),
+                      fontWeight: FontWeight.w900),
                 ),
-              ]
-            ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Icon(
+                      Icons.access_time,
+                      color: Colors.grey.shade400,
+                      size: 15,
+                    ),
+                    SizedBox(
+                      width: 3,
+                    ),
+                    Text(
+                      widget.categoryData.data['addedTime'],
+                      style: TextStyle(fontSize: 14, color: Colors.grey),
+                    ),
+                    SizedBox(
+                      width: 15,
+                    ),
+                    (widget.categoryData.data['contentType'] == 'Audio')
+                        ? Icon(
+                            Icons.audiotrack,
+                            size: 15,
+                            color: Colors.grey.shade400,
+                          )
+                        : (widget.categoryData.data['contentType'] == 'Video')
+                            ? Icon(
+                                Icons.play_arrow,
+                                size: 15,
+                                color: Colors.grey.shade400,
+                              )
+                            : Icon(
+                                Icons.event_note,
+                                size: 15,
+                                color: Colors.grey.shade400,
+                              ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text(
+                      widget.categoryData.data['contentType'],
+                      style: TextStyle(fontSize: 13, color: Colors.grey),
+                    )
+                  ],
+                ),
+              ),
+            ]),
           )),
     );
   }

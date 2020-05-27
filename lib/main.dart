@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import  'models/my_colors.dart';
+import 'models/my_colors.dart';
 import 'screens/article_screen.dart';
 
 void main() => runApp(MyApp());

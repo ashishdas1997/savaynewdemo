@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../screens/category_card.dart';
 
 class CategoryRow extends StatelessWidget {
-  final rowElements;
+  final List rowElements;
   CategoryRow(this.rowElements);
 
   @override
