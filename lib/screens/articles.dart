@@ -13,21 +13,12 @@ class _ArticlesState extends State<Articles> {
   List<DocumentSnapshot> loadedArticles = [];
   bool expanded = false;
   bool loading = true;
+
+
   getArticles() async {
-    setState(() {
-      loading = true;
-    });
     QuerySnapshot q = await firestore.collection('articles').getDocuments();
     loadedArticles = q.documents;
-    setState(() {
-      loading = false;
-    });
-  }
 
-  @override
-  void initState() {
-    super.initState();
-    getArticles();
   }
 
   @override
@@ -45,78 +36,82 @@ class _ArticlesState extends State<Articles> {
             ),
           ],
         ),
-        body: loading == true
-            ? Container(
-                child: Center(
-                  child: Text('Loading'),
-                ),
-              )
-            : Container(
-                child: loadedArticles.length == 0
-                    ? Center(
-                        child: Text(' No Articles to display'),
-                      )
-                    : ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        itemCount: loadedArticles.length,
-                        itemBuilder: (BuildContext ctx, int index) {
-                          String note = loadedArticles[index].documentID;
-                          return Column(
-                            children: <Widget>[
-                              ListTile(
-                                title:
-                                    Text(loadedArticles[index].data['title']),
-                                leading: CircleAvatar(
-                                  backgroundImage: AssetImage(
-                                      loadedArticles[index].data['imageLink']),
-                                ),
-                                trailing: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    IconButton(
-                                      icon: Icon(expanded
-                                          ? Icons.expand_less
-                                          : Icons.expand_more),
-                                      onPressed: () {
-                                        setState(() {
-                                          expanded = !expanded;
-                                        });
-                                      },
-                                    ),
-                                    IconButton(icon: Icon(Icons.delete),
-                                    onPressed: () async {
-                                      await firestore.collection('articles')
-                                          .document(loadedArticles[index].documentID)
-                                          .delete();
-                                    }
-                                      )
-                                  ],
-                                ),
-                              ),
-                              if (expanded)
-                                Container(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 15, vertical: 4),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: <Widget>[
-                                      Text(
+        body: StreamBuilder(
+            stream: Firestore.instance.collection('articles').snapshots(),
+            builder:(context, snapshot){
+              if(snapshot.data == null) return CircularProgressIndicator();
 
-                                          'Category: ${loadedArticles[index].data['category']}'),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Text(
-                                          'Content Type: ${loadedArticles[index].data['contentType']}')
-                                    ],
-                                  ),
-                                ),
+              if(!snapshot.hasData){
+                return const Text('Loading');
+              }else{
+                return ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemCount: snapshot.data.documents.length,
+                  itemBuilder: (context, int index) {
+                    DocumentSnapshot myarticles= snapshot.data.documents[index];
+                    return Column(
+                      children: <Widget>[
+                        ListTile(
+                          title:
+                          Text(myarticles['title']),
+                          leading: CircleAvatar(
+                            backgroundImage: AssetImage(
+                                myarticles['imageLink']),
+                          ),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              IconButton(
+                                icon: Icon(expanded
+                                    ? Icons.expand_less
+                                    : Icons.expand_more),
+                                onPressed: () {
+                                  setState(() {
+                                    expanded = !expanded;
+                                  });
+                                },
+                              ),
+                              IconButton(icon: Icon(Icons.delete),
+                                  onPressed: () async {
+                                    await firestore.collection('articles')
+                                        .document(snapshot.data.documents[index].documentID)
+                                        .delete();
+                                  }
+                              )
                             ],
-                          );
-                        },
-                      )));
+                          ),
+                        ),
+                        if (expanded)
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 4),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceAround,
+                              children: <Widget>[
+                                Text(
+
+                                    'Category: ${myarticles['category']}'),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                    'Content Type: ${myarticles['contentType']}')
+                              ],
+                            ),
+                          ),
+                      ],
+                    );
+                  },
+                );
+              }
+
+            }
+
+        ),
+
+    );
   }
 }
