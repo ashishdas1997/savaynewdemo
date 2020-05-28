@@ -61,6 +61,7 @@ class _ArticlesState extends State<Articles> {
                         shrinkWrap: true,
                         itemCount: loadedArticles.length,
                         itemBuilder: (BuildContext ctx, int index) {
+                          String note = loadedArticles[index].documentID;
                           return Column(
                             children: <Widget>[
                               ListTile(
@@ -70,15 +71,27 @@ class _ArticlesState extends State<Articles> {
                                   backgroundImage: AssetImage(
                                       loadedArticles[index].data['imageLink']),
                                 ),
-                                trailing: IconButton(
-                                  icon: Icon(expanded
-                                      ? Icons.expand_less
-                                      : Icons.expand_more),
-                                  onPressed: () {
-                                    setState(() {
-                                      expanded = true;
-                                    });
-                                  },
+                                trailing: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    IconButton(
+                                      icon: Icon(expanded
+                                          ? Icons.expand_less
+                                          : Icons.expand_more),
+                                      onPressed: () {
+                                        setState(() {
+                                          expanded = !expanded;
+                                        });
+                                      },
+                                    ),
+                                    IconButton(icon: Icon(Icons.delete),
+                                    onPressed: () async {
+                                      await firestore.collection('articles')
+                                          .document(loadedArticles[index].documentID)
+                                          .delete();
+                                    }
+                                      )
+                                  ],
                                 ),
                               ),
                               if (expanded)
@@ -91,6 +104,7 @@ class _ArticlesState extends State<Articles> {
                                         MainAxisAlignment.spaceAround,
                                     children: <Widget>[
                                       Text(
+
                                           'Category: ${loadedArticles[index].data['category']}'),
                                       SizedBox(
                                         height: 10,
