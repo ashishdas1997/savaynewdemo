@@ -11,6 +11,12 @@ class _AddArticleState extends State<AddArticle> {
   String imageLink;
   String contentType;
   String category;
+  String timeAdded;
+
+  getTimeAdded(timeAdded){
+    this.timeAdded = timeAdded;
+  }
+
 
   getTitle(title) {
     this.title = title;
@@ -77,6 +83,13 @@ class _AddArticleState extends State<AddArticle> {
               decoration: InputDecoration(hintText: 'Category'),
               onChanged: (String category) {
                 getCategory(category);
+              },
+            ),
+            TextField(
+              decoration: InputDecoration(hintText: 'Time Added'),
+              textInputAction: TextInputAction.next,
+              onChanged: (String timeAdded) {
+                getContentType(timeAdded);
               },
             ),
             RaisedButton(
